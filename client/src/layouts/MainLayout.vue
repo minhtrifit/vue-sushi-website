@@ -12,6 +12,12 @@ import Footer from "@/components/Footer.vue";
 </template>
 
 <style>
+.main-layout * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body.main-layout {
   font-family: var(--body-font);
   font-size: var(--normal-font-size);
@@ -106,16 +112,16 @@ body.main-layout {
 }
 
 /*=============== SCROLL BAR ===============*/
-::-webkit-scrollbar {
+.main-layout::-webkit-scrollbar {
   width: 0.6rem;
   background-color: hsl(34, 32%, 75%);
 }
 
-::-webkit-scrollbar-thumb {
+.main-layout::-webkit-scrollbar-thumb {
   background-color: hls(34, 32%, 65%);
 }
 
-::-webkit-scrollbar-thumb:hover {
+.main-layout::-webkit-scrollbar-thumb:hover {
   background-color: hsl(34, 32%, 55%);
 }
 

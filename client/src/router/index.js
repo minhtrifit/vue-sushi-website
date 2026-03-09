@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import MainLayout from "../layouts/MainLayout.vue";
 import AdminLayout from "../layouts/AdminLayout.vue";
-import AdminAuthLayout from "../layouts/AdminAuthLayout.vue";
+import AuthLayout from "../layouts/AuthLayout.vue";
 
 import MainPage from "@/pages/main/MainPage.vue";
 import AdminPage from "@/pages/admin/AdminPage.vue";
@@ -22,8 +22,8 @@ const routes = [
   },
 
   {
-    path: "/admin/auth",
-    component: AdminAuthLayout,
+    path: "/auth",
+    component: AuthLayout,
     children: [
       {
         path: "login",
@@ -60,11 +60,11 @@ router.afterEach((to) => {
     "admin-auth-layout",
   );
 
-  if (to.path.startsWith("/admin") && !to.path.includes("/auth")) {
+  if (to.path.startsWith("/admin")) {
     document.body.classList.add("admin-layout");
     document.documentElement.classList.remove("smooth-scroll");
-  } else if (to.path.startsWith("/admin") && to.path.includes("/auth")) {
-    document.body.classList.add("admin-auth-layout");
+  } else if (to.path.startsWith("/auth")) {
+    document.body.classList.add("auth-layout");
     document.documentElement.classList.remove("smooth-scroll");
   } else {
     document.documentElement.classList.add("smooth-scroll");

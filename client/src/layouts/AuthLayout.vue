@@ -7,20 +7,22 @@ const router = useRouter();
 onMounted(() => {
   const token = localStorage.getItem("token");
 
-  if (!token) {
-    router.replace("/auth/login");
+  if (token) {
+    router.replace("/admin/dashboard");
   }
 });
 </script>
 
 <template>
-  <div class="admin-layout">
-    <router-view />
-  </div>
+  <v-app>
+    <div class="auth-layout">
+      <router-view />
+    </div>
+  </v-app>
 </template>
 
 <style>
-body.admin-layout {
+body.auth-layout {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   font-size: var(--normal-font-size);
   background-color: #fff;

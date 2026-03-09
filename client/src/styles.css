@@ -54,11 +54,6 @@
 }
 
 /*=============== BASE ===============*/
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
 
 .smooth-scroll {
   scroll-behavior: smooth;
