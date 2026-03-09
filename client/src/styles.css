@@ -53,39 +53,13 @@
   }
 }
 
-/*=============== REUSABLE CSS CLASSES ===============*/
-.container {
-  max-width: 1120px;
-  margin-inline: 1rem;
+/*=============== BASE ===============*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.grid {
-  display: grid;
-  gap: 1.5rem;
-}
-
-.section {
-  padding-block: 5rem 1rem;
-}
-
-.section__title {
-  text-align: center;
-  font-size: var(--bigger-font-size);
-  margin-bottom: 1rem;
-}
-
-.section__title span {
-  color: var(--first-color);
-}
-
-.section__subtitle {
-  display: block;
-  text-align: center;
-  font: var(--font-semi-bold) var(--small-font-size) var(--second-font);
-  color: var(--first-color);
-  margin-bottom: 0.5rem;
-}
-
-.main {
-  overflow: hidden;
+.smooth-scroll {
+  scroll-behavior: smooth;
 }

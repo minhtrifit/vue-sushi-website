@@ -112,9 +112,5 @@ onMounted(() => {
   .footer__copy {
     margin: 0;
   }
-
-  .scrollup {
-    right: 3rem;
-  }
 }
 </style>

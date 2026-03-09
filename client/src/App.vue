@@ -1,10 +1,10 @@
 <script setup>
-import MainPage from "./pages/main/MainPage.vue";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import "../src/styles.css";
 </script>
 
 <template>
-  <MainPage />
+  <router-view />
 </template>
