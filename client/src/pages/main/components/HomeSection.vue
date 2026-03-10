@@ -1,6 +1,18 @@
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, reactive, watch } from "vue";
+import { get } from "lodash";
 import { sr } from "@/libs/index";
+import { formatNewLineToBr } from "@/helpers/index";
+import { SECTION_TYPE } from "@/constants";
+import { useSectionByType } from "@/composables/useSectionByType";
+
+const { data, loading, error } = useSectionByType(SECTION_TYPE.HOME);
+
+const content = reactive({
+  mainTitle: "",
+  subTitle: "",
+  content: "",
+});
 
 const handleRevealSection = () => {
   sr.reveal(`.home__title`, { origin: "top" });
@@ -30,6 +42,16 @@ const handleRevealSection = () => {
   });
 };
 
+watch(
+  data,
+  (res) => {
+    if (!res?.success) return;
+
+    Object.assign(content, res.data);
+  },
+  { immediate: true },
+);
+
 onMounted(() => {
   handleRevealSection();
 });
@@ -40,14 +62,13 @@ onMounted(() => {
     <div class="home__container container grid">
       <div class="home__data">
         <h1 class="home__title">
-          Enjoy Delicious <br />
-          The <span>Japanese Foods</span>
+          <span v-html="formatNewLineToBr(get(content, 'mainTitle', ''))" />
+          {{ " " }}
+          <span>{{ get(content, "subTitle") }}</span>
         </h1>
 
         <p class="home__description">
-          We serve the finest Japanese cuisine. Prepared with carefully selected
-          natural ingredients by a professional chef, guaranteeing a
-          high-quality flavor. We hope you enjoy your meal.
+          {{ get(content, "content") }}
         </p>
 
         <a href="#menu" class="button">Order Now</a>
@@ -113,7 +134,7 @@ onMounted(() => {
   font-size: var(--biggest-font-size);
 }
 
-.home__title span {
+.home__title span:nth-of-type(2) {
   color: var(--first-color);
 }
 

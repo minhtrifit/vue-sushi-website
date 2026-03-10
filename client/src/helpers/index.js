@@ -23,3 +23,30 @@ export const handleLogout = async (title) => {
     },
   });
 };
+
+export const formatErrorMessage = (message) => {
+  const resMessage = message;
+
+  let content = "Something wrong";
+
+  if (Array.isArray(resMessage)) {
+    // Nếu là mảng object { field, message }
+    if (
+      resMessage.every((item) => typeof item === "object" && "message" in item)
+    ) {
+      content = resMessage.map((item) => item.message).join(", ");
+    } else {
+      // Nếu là mảng string
+      content = resMessage.join(", ");
+    }
+  } else if (typeof resMessage === "string") {
+    content = resMessage;
+  }
+
+  return content;
+};
+
+export const formatNewLineToBr = (text) => {
+  if (!text) return "";
+  return text.replace(/\n/g, "<br/>");
+};

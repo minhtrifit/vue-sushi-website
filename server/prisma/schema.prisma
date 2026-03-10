@@ -13,6 +13,17 @@ datasource db {
   provider = "postgresql"
 }
 
+enum Role {
+  USER
+  ADMIN
+}
+
+enum SectionType {
+  HOME
+  ABOUT
+  SPECIAL
+}
+
 model User {
   id        String   @id @default(uuid())
   email     String   @unique
@@ -25,7 +36,13 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
-enum Role {
-  USER
-  ADMIN
+model Section {
+  id        String      @id @default(uuid())
+  mainTitle String
+  subTitle  String
+  content   String
+  type      SectionType @unique
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
 }
+

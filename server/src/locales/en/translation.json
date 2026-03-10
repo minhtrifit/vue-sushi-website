@@ -8,7 +8,8 @@
     "user_email_existed": "User email is existed",
     "user_not_found": "User not found",
     "email_password_required": "Email or password are missing",
-    "email_password_not_match": "Email or password not match"
+    "email_password_not_match": "Email or password not match",
+    "no_permission": "No permission to access"
   },
   "upload": {
     "file_required": "File is required",
@@ -22,6 +23,13 @@
     "user_id_not_found": "User ID not found",
     "user_email_existed": "User email is existed",
     "user_not_found": "User not found",
+    "create_successfully": "Create successfully",
+    "update_successfully": "Update successfully"
+  },
+  "section": {
+    "get_by_type_successfully": "Get section by type successfully",
+    "type_not_found": "Section type not found",
+    "section_not_found": "Section not found",
     "create_successfully": "Create successfully",
     "update_successfully": "Update successfully"
   }

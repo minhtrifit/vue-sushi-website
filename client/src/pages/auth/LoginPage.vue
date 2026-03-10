@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 import { useRouter } from "vue-router";
 import { toast } from "vue3-toastify";
 import { useUserStore } from "@/stores/user";
-import { useLodingMutation } from "../admin/composables/useLoginMutation";
+import { useLoginMutation } from "../admin/composables/useLoginMutation";
 import LoginForm from "./components/LoginForm.vue";
 
 const APP_KEY = import.meta.env.VITE_APP_KEY;
@@ -11,7 +11,7 @@ const APP_KEY = import.meta.env.VITE_APP_KEY;
 const router = useRouter();
 const userStore = useUserStore();
 
-const { login, loading } = useLodingMutation();
+const { login, loading } = useLoginMutation();
 
 const handleLogin = async (payload) => {
   const { value, resetFn } = payload;

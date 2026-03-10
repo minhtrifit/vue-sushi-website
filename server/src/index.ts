@@ -14,6 +14,7 @@ import { HTTP_STATUS } from './constants/http-status-code';
 import userRoutes from './routes/user.router';
 import authRoutes from './routes/auth.router';
 import uploadRoutes from './routes/upload.router';
+import sectionRoutes from './routes/section.router';
 
 dotenv.config();
 
@@ -51,11 +52,12 @@ app.use(morganMiddleware);
 
 // Routes
 app.get('/', (req, res) => {
-  res.status(HTTP_STATUS.OK).json({ success: true, message: 'Welcome to Express Boilerplate!' });
+  res.status(HTTP_STATUS.OK).json({ success: true, message: 'Vue Sushi Server!' });
 });
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/sections', sectionRoutes);
 
 // Error handling middleware
 app.use(multerErrorHandler);

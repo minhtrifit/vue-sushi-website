@@ -1,10 +1,10 @@
 import { computed } from "vue";
 import { useMutation } from "@tanstack/vue-query";
-import { login } from "../api/auth.api";
+import { updateSection } from "../api/section.api";
 
-export const useLoginMutation = () => {
+export const useUpdateSectionMutation = () => {
   const mutation = useMutation({
-    mutationFn: login,
+    mutationFn: ({ id, payload }) => updateSection(id, payload),
   });
 
   const loading = computed(() => mutation.isPending.value);
@@ -12,8 +12,8 @@ export const useLoginMutation = () => {
   const data = computed(() => mutation.data.value);
 
   return {
-    login: mutation.mutate,
-    loginAsync: mutation.mutateAsync,
+    update: mutation.mutate,
+    updateAsync: mutation.mutateAsync,
     loading,
     error,
     data,

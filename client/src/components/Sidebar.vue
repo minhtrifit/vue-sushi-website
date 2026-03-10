@@ -68,12 +68,17 @@ const MENU = [
 <template>
   <v-navigation-drawer v-model="drawer" app>
     <v-list style="padding: 0">
-      <v-list-item style="height: 64px">
-        <div class="d-flex align-center justify-center ga-2">
-          <img src="/assets/img/menu-shusi-1.png" style="height: 30px" />
-          <span style="font-weight: 600">Sushi Admin</span>
-        </div>
-      </v-list-item>
+      <router-link
+        to="/admin/dashboard"
+        style="text-decoration: none; color: #000"
+      >
+        <v-list-item style="height: 64px">
+          <div class="d-flex align-center justify-center ga-2">
+            <img src="/assets/img/menu-shusi-1.png" style="height: 30px" />
+            <span style="font-weight: 600">Sushi Admin</span>
+          </div>
+        </v-list-item>
+      </router-link>
 
       <v-divider />
 

@@ -8,7 +8,8 @@
     "user_email_existed": "Email đã tồn tại",
     "user_not_found": "Người dùng không tồn tại",
     "email_password_required": "Vui lòng nhập email & password",
-    "email_password_not_match": "Email hoặc tài khoản không đúng"
+    "email_password_not_match": "Email hoặc tài khoản không đúng",
+    "no_permission": "Không có quyền truy cập"
   },
   "upload": {
     "file_required": "Vui lòng chọn file",
@@ -24,5 +25,12 @@
     "user_not_found": "Người dùng không tồn tại",
     "create_successfully": "Thêm mới người dùng thành công",
     "update_successfully": "Cập nhật người dùng thành công"
+  },
+  "section": {
+    "get_by_type_successfully": "Lấy thông tin section thành công",
+    "type_not_found": "Không tìm thấy loại section",
+    "section_not_found": "Không tìm thấy section",
+    "create_successfully": "Thêm mới section thành công",
+    "update_successfully": "Cập nhật section thành công"
   }
 }

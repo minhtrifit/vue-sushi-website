@@ -2,6 +2,7 @@ import { faker } from '@faker-js/faker';
 import { prisma } from '../src/libs/prisma';
 import { hashPassword } from '../src/libs/auth';
 import { Role } from '../src/models/User';
+import { SectionType } from '../src/models/Section';
 
 async function main() {
   const password = await hashPassword('123456');
@@ -36,6 +37,45 @@ async function main() {
   await prisma.user.createMany({
     data: [...baseUsers, ...generatedUsers],
     skipDuplicates: true
+  });
+
+  // HOME section
+  await prisma.section.upsert({
+    where: { type: SectionType.HOME },
+    update: {},
+    create: {
+      type: SectionType.HOME,
+      mainTitle: 'Enjoy Delicious\nThe',
+      subTitle: 'Japanese Foods',
+      content:
+        'We serve the finest Japanese cuisine. Prepared with carefully selected natural ingredients by a professional chef, guaranteeing a high-quality flavor. We hope you enjoy your meal.'
+    }
+  });
+
+  // About section
+  await prisma.section.upsert({
+    where: { type: SectionType.ABOUT },
+    update: {},
+    create: {
+      type: SectionType.ABOUT,
+      mainTitle: 'We Serve You The\nAuthentic',
+      subTitle: 'Japanese\nFlavor',
+      content:
+        'We have been operating for ten years to continue serving Japanese food, with authentic flavors that we will continue to naturalize for you.'
+    }
+  });
+
+  // Special section
+  await prisma.section.upsert({
+    where: { type: SectionType.SPECIAL },
+    update: {},
+    create: {
+      type: SectionType.SPECIAL,
+      mainTitle: 'Our Special Dish',
+      subTitle: 'Sashimi Oishi',
+      content:
+        'We serve the best and freshest seafood eaten raw with soy sauce, grated ginger and wasabi, combining the authentic flavor of the Japanese for your palate.'
+    }
   });
 
   console.log('✅ Seed successfully');
