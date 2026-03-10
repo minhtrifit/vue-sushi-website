@@ -1,6 +1,11 @@
 <script setup>
+import { useTitle } from "../composables/useTitle";
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
+
+const APP_NAME = import.meta.env.VITE_APP_NAME;
+
+useTitle(`${APP_NAME} | Authentic Japanese Flavors`);
 </script>
 
 <template>
@@ -78,7 +83,7 @@ body.main-layout {
   margin-bottom: 1rem;
 }
 
-.section__title span {
+.section__title span:nth-of-type(2) {
   color: var(--first-color);
 }
 

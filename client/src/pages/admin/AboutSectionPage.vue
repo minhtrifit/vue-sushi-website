@@ -9,7 +9,7 @@ import Loading from "@/components/Loading.vue";
 import Error from "@/components/Error.vue";
 import SectionForm from "./components/SectionForm.vue";
 
-const { data, loading, error } = useSectionByType(SECTION_TYPE.HOME);
+const { data, loading, error } = useSectionByType(SECTION_TYPE.ABOUT);
 const { update, loading: updateLoading } = useUpdateSectionMutation();
 
 const formInitValue = reactive({
@@ -69,7 +69,7 @@ watch(error, (err) => {
   <v-card v-if="!loading && !error">
     <v-card-text>
       <SectionForm
-        title="Home Section Management"
+        title="About Section Management"
         :defaultValue="formInitValue"
         :loading="updateLoading"
         @submit-section="handleSubmitSection"

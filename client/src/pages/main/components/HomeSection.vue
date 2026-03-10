@@ -64,7 +64,7 @@ onMounted(() => {
         <h1 class="home__title">
           <span v-html="formatNewLineToBr(get(content, 'mainTitle', ''))" />
           {{ " " }}
-          <span>{{ get(content, "subTitle") }}</span>
+          <span v-html="formatNewLineToBr(get(content, 'subTitle', ''))" />
         </h1>
 
         <p class="home__description">

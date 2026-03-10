@@ -2,6 +2,7 @@
 import Cookies from "js-cookie";
 import { onMounted, ref, computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
+import { useTitle } from "../composables/useTitle";
 import { useUserStore } from "../stores/user";
 import { verifyToken } from "../pages/admin/api/auth.api";
 import { handleLogout } from "../helpers";
@@ -10,9 +11,13 @@ import NoPermission from "../components/NoPermission.vue";
 import Sidebar from "../components/Sidebar.vue";
 import Navbar from "../components/Navbar.vue";
 import Breadcrumb from "../components/Breadcrumb.vue";
+import AdminFooter from "../components/AdminFooter.vue";
 
 const APP_KEY = import.meta.env.VITE_APP_KEY;
+const APP_NAME = import.meta.env.VITE_APP_NAME;
 const SUB_MENU_PATH = ["/admin/management"];
+
+useTitle(`${APP_NAME} | Admin`);
 
 const router = useRouter();
 const route = useRoute();
@@ -94,6 +99,8 @@ onMounted(() => {
           <router-view />
         </v-container>
       </v-main>
+
+      <admin-footer />
     </v-app>
   </div>
 </template>

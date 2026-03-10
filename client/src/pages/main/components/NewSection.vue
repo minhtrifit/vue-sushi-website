@@ -1,6 +1,18 @@
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, reactive, watch } from "vue";
+import { get } from "lodash";
 import { sr } from "@/libs/index";
+import { formatNewLineToBr } from "@/helpers/index";
+import { SECTION_TYPE } from "@/constants";
+import { useSectionByType } from "@/composables/useSectionByType";
+
+const { data, loading, error } = useSectionByType(SECTION_TYPE.SPECIAL);
+
+const content = reactive({
+  mainTitle: "",
+  subTitle: "",
+  content: "",
+});
 
 const handleRevealSection = () => {
   sr.reveal(`.new__data .section__title`);
@@ -34,6 +46,16 @@ const handleRevealSection = () => {
   });
 };
 
+watch(
+  data,
+  (res) => {
+    if (!res?.success) return;
+
+    Object.assign(content, res.data);
+  },
+  { immediate: true },
+);
+
 onMounted(() => {
   handleRevealSection();
 });
@@ -46,14 +68,13 @@ onMounted(() => {
         <span class="section__subtitle">Newly Added / 新しく追加された</span>
 
         <h2 class="section__title">
-          Our Special Dish <br />
-          <span>Sashimi Oishi</span>
+          <span v-html="formatNewLineToBr(get(content, 'mainTitle', ''))" />
+          {{ " " }}
+          <span v-html="formatNewLineToBr(get(content, 'subTitle', ''))" />
         </h2>
 
         <p class="new__description">
-          We serve the best and freshest seafood eaten raw with soy sauce,
-          grated ginger and wasabi, combining the authentic flavor of the
-          Japanese for your palate.
+          {{ get(content, "content") }}
         </p>
 
         <img

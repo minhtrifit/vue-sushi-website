@@ -1,6 +1,18 @@
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, reactive, watch } from "vue";
+import { get } from "lodash";
 import { sr } from "@/libs/index";
+import { formatNewLineToBr } from "@/helpers/index";
+import { SECTION_TYPE } from "@/constants";
+import { useSectionByType } from "@/composables/useSectionByType";
+
+const { data, loading, error } = useSectionByType(SECTION_TYPE.ABOUT);
+
+const content = reactive({
+  mainTitle: "",
+  subTitle: "",
+  content: "",
+});
 
 const handleRevealSection = () => {
   sr.reveal(`.about__data .section__title`);
@@ -34,6 +46,16 @@ const handleRevealSection = () => {
   });
 };
 
+watch(
+  data,
+  (res) => {
+    if (!res?.success) return;
+
+    Object.assign(content, res.data);
+  },
+  { immediate: true },
+);
+
 onMounted(() => {
   handleRevealSection();
 });
@@ -46,14 +68,13 @@ onMounted(() => {
         <span class="section__subtitle">About Us / 私たちについて</span>
 
         <h2 class="section__title">
-          We Serve You The <br />
-          Authentic <span>Japanese Flavor</span>
+          <span v-html="formatNewLineToBr(get(content, 'mainTitle', ''))" />
+          {{ " " }}
+          <span v-html="formatNewLineToBr(get(content, 'subTitle', ''))" />
         </h2>
 
         <p class="about__description">
-          We have been operating for ten years to continue serving Japanese
-          food, with authentic flavors that we will continue to naturalize for
-          you.
+          {{ get(content, "content") }}
         </p>
 
         <a href="#new" class="button">Special Menu</a>

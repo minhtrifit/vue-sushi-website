@@ -1,4 +1,5 @@
 <script setup>
+import { get } from "lodash";
 import { useRouter } from "vue-router";
 import { z } from "zod";
 import { useForm, useField } from "vee-validate";
@@ -6,6 +7,10 @@ import { toTypedSchema } from "@vee-validate/zod";
 import { PhPaperPlaneTilt } from "@phosphor-icons/vue";
 
 const props = defineProps({
+  title: {
+    type: String,
+    default: "Section Form Management",
+  },
   defaultValue: {
     type: Object,
     default: () => ({
@@ -20,7 +25,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["submit-home-section"]);
+const emit = defineEmits(["submit-section"]);
 
 const router = useRouter();
 
@@ -45,7 +50,7 @@ const onBack = () => {
 };
 
 const onSubmit = handleSubmit((values) => {
-  emit("submit-home-section", {
+  emit("submit-section", {
     value: values,
     resetFn: resetForm,
   });
@@ -53,7 +58,7 @@ const onSubmit = handleSubmit((values) => {
 </script>
 
 <template>
-  <v-label class="mb-5">Home Section Management</v-label>
+  <v-label class="mb-5">{{ get(props, "title") }}</v-label>
 
   <form @submit.prevent="onSubmit">
     <v-row>

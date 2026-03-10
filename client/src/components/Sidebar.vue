@@ -1,4 +1,5 @@
 <script setup>
+import { ref } from "vue";
 import {
   PhSquaresFour,
   PhHouse,
@@ -7,8 +8,12 @@ import {
   PhPhone,
   PhGear,
   PhTag,
-  PhHamburger,
+  PhBowlSteam,
 } from "@phosphor-icons/vue";
+
+const APP_NAME = import.meta.env.VITE_APP_NAME;
+
+const appName = ref(APP_NAME);
 
 const drawer = defineModel();
 
@@ -46,7 +51,7 @@ const MENU = [
         id: "food",
         title: "Food",
         url: "/admin/management/food",
-        icon: PhHamburger,
+        icon: PhBowlSteam,
       },
     ],
   },
@@ -75,7 +80,7 @@ const MENU = [
         <v-list-item style="height: 64px">
           <div class="d-flex align-center justify-center ga-2">
             <img src="/assets/img/menu-shusi-1.png" style="height: 30px" />
-            <span style="font-weight: 600">Sushi Admin</span>
+            <span style="font-weight: 600">{{ appName }}</span>
           </div>
         </v-list-item>
       </router-link>

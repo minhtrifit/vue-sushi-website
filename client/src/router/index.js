@@ -10,7 +10,9 @@ import AdminPage from "@/pages/admin/AdminPage.vue";
 import LoginPage from "@/pages/auth/LoginPage.vue";
 import RegisterPage from "@/pages/auth/RegisterPage.vue";
 import HomeSectionPage from "../pages/admin/HomeSectionPage.vue";
+import AboutSectionPage from "../pages/admin/AboutSectionPage.vue";
 import CategoryPage from "../pages/admin/CategoryPage.vue";
+import SpecialSectionPage from "../pages/admin/SpecialSectionPage.vue";
 
 const routes = [
   {
@@ -63,7 +65,11 @@ const routes = [
         name: "Home",
         component: HomeSectionPage,
       },
-
+      {
+        path: "about-us",
+        name: "About us",
+        component: AboutSectionPage,
+      },
       {
         path: "management",
         name: "Management",
@@ -81,6 +87,11 @@ const routes = [
             ],
           },
         ],
+      },
+      {
+        path: "special",
+        name: "Special",
+        component: SpecialSectionPage,
       },
     ],
   },
