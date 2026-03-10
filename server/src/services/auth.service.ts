@@ -1,5 +1,5 @@
 import { prisma } from '@/libs/prisma';
-import { comparePassword, generateToken, hashPassword } from '@/libs/auth';
+import { comparePassword, generateToken, hashPassword, JwtPayload } from '@/libs/auth';
 import { Role, UserPayload } from '@/models/User';
 import { RegisterPayload, LoginPayload } from '@/models/Auth';
 
@@ -63,5 +63,16 @@ export const authService = {
     if (!token) throw new Error(AuthError.AUTHORZIED_FAILED);
 
     return { ...user, token };
+  },
+
+  async getProfile(user: JwtPayload) {
+    // Find User by ID
+    const profile = await prisma.user.findUnique({
+      where: { id: user.userId }
+    });
+
+    if (!profile) throw new Error(AuthError.NOT_FOUND);
+
+    return profile;
   }
 };

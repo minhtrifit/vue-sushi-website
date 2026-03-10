@@ -48,7 +48,12 @@ const onSubmit = handleSubmit((values) => {
 <template>
   <v-container class="fill-height d-flex align-center justify-center">
     <v-card width="400" elevation="6">
-      <v-card-title class="text-h5 text-center">Sign In</v-card-title>
+      <v-card-title class="d-flex align-center justify-center ga-3">
+        <img src="/assets/img/favicon.png" style="width: 30px" />
+        <span style="font-size: 1.25rem; font-weight: 500"
+          >Sushi Restaurant</span
+        >
+      </v-card-title>
 
       <v-card-text>
         <form @submit.prevent="onSubmit">

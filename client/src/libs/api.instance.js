@@ -64,7 +64,9 @@ axiosInstance.interceptors.response.use(
     }
 
     toast.error(content, {
-      autoClose: 1500,
+      position: "bottom-left",
+      autoClose: 2000,
+      theme: "colored",
       onClose: () => {
         if (error.response.status === 401) {
           forceLogout();

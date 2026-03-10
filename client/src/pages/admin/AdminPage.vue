@@ -1,17 +1,18 @@
 <script setup>
-import { useUsersQuery } from "./composables/useUsersQuery";
+import { watch } from "vue";
+import { useUserStore } from "@/stores/user";
 
-const { data, isLoading, error } = useUsersQuery();
+const userStore = useUserStore();
+
+watch(
+  () => userStore.user,
+  (newValue, oldValue) => {
+    console.log("new:", newValue);
+    console.log("old:", oldValue);
+  },
+);
 </script>
 
 <template>
-  <div v-if="isLoading">Loading...</div>
-
-  <div v-else-if="error">Error</div>
-
-  <ul v-else>
-    <li v-for="user in data" :key="user.id">
-      {{ user.name }}
-    </li>
-  </ul>
+  <div>{{ userStore.user?.fullName }}</div>
 </template>

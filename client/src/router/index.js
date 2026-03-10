@@ -4,6 +4,7 @@ import MainLayout from "../layouts/MainLayout.vue";
 import AdminLayout from "../layouts/AdminLayout.vue";
 import AuthLayout from "../layouts/AuthLayout.vue";
 
+import NotFound from "../components/NotFound.vue";
 import MainPage from "@/pages/main/MainPage.vue";
 import AdminPage from "@/pages/admin/AdminPage.vue";
 import LoginPage from "@/pages/auth/LoginPage.vue";
@@ -45,6 +46,11 @@ const routes = [
         component: AdminPage,
       },
     ],
+  },
+
+  {
+    path: "/:pathMatch(.*)*",
+    component: NotFound,
   },
 ];
 
