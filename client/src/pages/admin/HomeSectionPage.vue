@@ -6,5 +6,5 @@ const userStore = useUserStore();
 </script>
 
 <template>
-  <main>{{ get(userStore, "user.fullName") }}</main>
+  <main>HomeSectionPage</main>
 </template>

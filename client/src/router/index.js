@@ -9,6 +9,7 @@ import MainPage from "@/pages/main/MainPage.vue";
 import AdminPage from "@/pages/admin/AdminPage.vue";
 import LoginPage from "@/pages/auth/LoginPage.vue";
 import RegisterPage from "@/pages/auth/RegisterPage.vue";
+import HomeSectionPage from "../pages/admin/HomeSectionPage.vue";
 
 const routes = [
   {
@@ -27,6 +28,10 @@ const routes = [
     component: AuthLayout,
     children: [
       {
+        path: "",
+        redirect: "/auth/login",
+      },
+      {
         path: "login",
         component: LoginPage,
       },
@@ -42,8 +47,16 @@ const routes = [
     component: AdminLayout,
     children: [
       {
+        path: "",
+        redirect: "/admin/dashboard",
+      },
+      {
         path: "dashboard",
         component: AdminPage,
+      },
+      {
+        path: "home",
+        component: HomeSectionPage,
       },
     ],
   },

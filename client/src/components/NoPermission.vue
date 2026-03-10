@@ -18,8 +18,10 @@
         gap: 10px;
       "
     >
-      <img src="/assets/img/home-img-2.png" style="width: 150px" />
-      <p class="title" style="font-size: 1.25rem font">Page Not Found</p>
+      <img src="/assets/img/home-img-3.png" style="width: 150px" />
+      <p class="title" style="font-size: 1.25rem font">
+        No Permission To Access
+      </p>
     </div>
   </main>
 </template>

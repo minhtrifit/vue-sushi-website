@@ -1,16 +1,21 @@
 <script setup>
 import Cookies from "js-cookie";
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useUserStore } from "../stores/user";
 import { verifyToken } from "../pages/admin/api/auth.api";
 import { handleLogout } from "../helpers";
 import FullScreenLoading from "../components/FullScreenLoading.vue";
+import NoPermission from "../components/NoPermission.vue";
+import Sidebar from "../components/Sidebar.vue";
+import Navbar from "../components/Navbar.vue";
 
 const APP_KEY = import.meta.env.VITE_APP_KEY;
 
 const router = useRouter();
 const userStore = useUserStore();
+
+const drawer = ref(true);
 
 const handleVerfiyToken = async () => {
   try {
@@ -56,15 +61,19 @@ onMounted(() => {
 <template>
   <div class="admin-layout">
     <full-screen-loading v-if="userStore.loading" />
-    <router-view v-else />
+
+    <no-permission v-if="!userStore.loading && !userStore.user" />
+
+    <v-app v-if="!userStore.loading && userStore.user">
+      <sidebar v-model="drawer" />
+
+      <navbar v-model="drawer" />
+
+      <v-main>
+        <v-container fluid>
+          <router-view />
+        </v-container>
+      </v-main>
+    </v-app>
   </div>
 </template>
-
-<style>
-body.admin-layout {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  font-size: var(--normal-font-size);
-  background-color: #fff;
-  color: #000;
-}
-</style>

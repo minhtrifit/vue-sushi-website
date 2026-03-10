@@ -8,6 +8,11 @@ export const forceLogout = async () => {
   window.location.href = "/";
 };
 
+export const adminLogout = async () => {
+  Cookies.remove(APP_KEY);
+  window.location.href = "/auth/login";
+};
+
 export const handleLogout = async (title) => {
   toast.error(title, {
     position: "bottom-left",
