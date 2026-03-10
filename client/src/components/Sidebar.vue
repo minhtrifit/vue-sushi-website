@@ -26,6 +26,12 @@ const MENU = [
     icon: PhHouse,
   },
   {
+    id: "about-us",
+    title: "About us",
+    url: "/admin/about-us",
+    icon: PhUsers,
+  },
+  {
     id: "management",
     title: "Management",
     icon: PhGear,
@@ -43,12 +49,6 @@ const MENU = [
         icon: PhHamburger,
       },
     ],
-  },
-  {
-    id: "about-us",
-    title: "About us",
-    url: "/admin/about-us",
-    icon: PhUsers,
   },
   {
     id: "special",
@@ -79,7 +79,11 @@ const MENU = [
 
       <template v-for="item in MENU" :key="item.id">
         <!-- MENU NORMAL -->
-        <v-list-item v-if="!item.children" :to="item.url">
+        <v-list-item
+          v-if="!item.children"
+          :to="item.url"
+          active-class="active-menu"
+        >
           <template #prepend>
             <v-icon>
               <component :is="item.icon" size="22" />
@@ -113,6 +117,7 @@ const MENU = [
             :key="child.id"
             :to="child.url"
             style="padding-left: 40px"
+            active-class="active-menu"
           >
             <template #prepend>
               <v-icon>
@@ -129,3 +134,10 @@ const MENU = [
     </v-list>
   </v-navigation-drawer>
 </template>
+
+<style>
+.active-menu {
+  background-color: var(--first-color) !important;
+  color: white !important;
+}
+</style>

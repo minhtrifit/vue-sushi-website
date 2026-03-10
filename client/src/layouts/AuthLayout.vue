@@ -53,7 +53,7 @@ onMounted(() => {
 
 <style>
 body.auth-layout {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: var(--normal-font-size);
   background-color: #fff;
   color: #000;

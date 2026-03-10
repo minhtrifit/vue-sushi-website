@@ -1,7 +1,7 @@
 <script setup>
 import Cookies from "js-cookie";
-import { onMounted, ref } from "vue";
-import { useRouter } from "vue-router";
+import { onMounted, ref, computed } from "vue";
+import { useRouter, useRoute } from "vue-router";
 import { useUserStore } from "../stores/user";
 import { verifyToken } from "../pages/admin/api/auth.api";
 import { handleLogout } from "../helpers";
@@ -9,13 +9,28 @@ import FullScreenLoading from "../components/FullScreenLoading.vue";
 import NoPermission from "../components/NoPermission.vue";
 import Sidebar from "../components/Sidebar.vue";
 import Navbar from "../components/Navbar.vue";
+import Breadcrumb from "../components/Breadcrumb.vue";
 
 const APP_KEY = import.meta.env.VITE_APP_KEY;
+const SUB_MENU_PATH = ["/admin/management"];
 
 const router = useRouter();
+const route = useRoute();
 const userStore = useUserStore();
 
 const drawer = ref(true);
+
+const breadcrumbs = computed(() => {
+  return route.matched
+    .filter((item) => item.path !== "/admin")
+    .map((item) => {
+      return {
+        title: item.meta?.title || item.name,
+        disabled: item.path === route.path || SUB_MENU_PATH.includes(item.path),
+        to: item.path,
+      };
+    });
+});
 
 const handleVerfiyToken = async () => {
   try {
@@ -69,11 +84,25 @@ onMounted(() => {
 
       <navbar v-model="drawer" />
 
-      <v-main>
-        <v-container fluid>
+      <v-main class="d-flex flex-column">
+        <v-container
+          fluid
+          class="flex-grow-1 bg-grey-lighten-4 d-flex flex-column ga-5"
+        >
+          <breadcrumb :items="breadcrumbs" />
+
           <router-view />
         </v-container>
       </v-main>
     </v-app>
   </div>
 </template>
+
+<style>
+body.admin-layout {
+  font-family: "Inter", sans-serif;
+  font-size: var(--normal-font-size);
+  background-color: #fff;
+  color: #000;
+}
+</style>

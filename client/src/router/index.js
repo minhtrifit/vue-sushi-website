@@ -10,6 +10,7 @@ import AdminPage from "@/pages/admin/AdminPage.vue";
 import LoginPage from "@/pages/auth/LoginPage.vue";
 import RegisterPage from "@/pages/auth/RegisterPage.vue";
 import HomeSectionPage from "../pages/admin/HomeSectionPage.vue";
+import CategoryPage from "../pages/admin/CategoryPage.vue";
 
 const routes = [
   {
@@ -44,19 +45,42 @@ const routes = [
 
   {
     path: "/admin",
+    name: "Admin",
     component: AdminLayout,
     children: [
       {
         path: "",
+        name: "Admin Default",
         redirect: "/admin/dashboard",
       },
       {
         path: "dashboard",
+        name: "Dashboard",
         component: AdminPage,
       },
       {
         path: "home",
+        name: "Home",
         component: HomeSectionPage,
+      },
+
+      {
+        path: "management",
+        name: "Management",
+        children: [
+          {
+            path: "category",
+            name: "Category",
+            component: CategoryPage,
+            children: [
+              {
+                path: "add",
+                name: "Add Category",
+                component: CategoryPage,
+              },
+            ],
+          },
+        ],
       },
     ],
   },

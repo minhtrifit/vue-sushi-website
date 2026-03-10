@@ -1,10 +1,19 @@
 <script setup>
-import { get } from "lodash";
-import { useUserStore } from "@/stores/user";
+import HomeForm from "./components/HomeForm.vue";
 
-const userStore = useUserStore();
+const handleSubmitSection = async (payload) => {
+  const { value, resetFn } = payload;
+
+  console.log(value);
+
+  resetFn();
+};
 </script>
 
 <template>
-  <main>HomeSectionPage</main>
+  <v-card>
+    <v-card-text>
+      <HomeForm @submit-home-section="handleSubmitSection" />
+    </v-card-text>
+  </v-card>
 </template>
