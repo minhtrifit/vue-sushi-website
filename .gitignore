@@ -24,3 +24,13 @@ client/*.ntvs*
 client/*.njsproj
 client/*.sln
 client/*.sw?
+
+server/node_modules/
+server/dist/
+server/.env
+server/generated/prisma
+server/generated/prisma
+server/generated/prisma
+server/logs/
+server/*.log
+server/uploads
