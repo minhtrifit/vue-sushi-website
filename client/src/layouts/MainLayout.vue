@@ -72,6 +72,7 @@ body.main-layout {
 }
 
 .section__title {
+  line-height: normal;
   text-align: center;
   font-size: var(--bigger-font-size);
   margin-bottom: 1rem;
@@ -130,10 +131,13 @@ body.main-layout {
   position: fixed;
   right: 1rem;
   bottom: -50%;
+  height: 34px;
   background-color: var(--body-color);
   box-shadow: 0 4px 16px hsla(0, 0%, 0%, 0.15);
   color: var(--title-color);
-  display: inline-flex;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 6px;
   font-size: 1.25rem;
   border-radius: 0.25rem;

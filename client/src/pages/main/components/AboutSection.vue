@@ -94,6 +94,7 @@ onMounted(() => {
 }
 
 .about__description {
+  line-height: normal;
   margin-bottom: 2rem;
 }
 

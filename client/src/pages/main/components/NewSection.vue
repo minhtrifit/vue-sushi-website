@@ -105,6 +105,10 @@ onMounted(() => {
   padding-bottom: 6rem;
 }
 
+.new__description {
+  line-height: normal;
+}
+
 .new__data {
   position: relative;
   text-align: center;

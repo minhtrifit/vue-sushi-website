@@ -109,6 +109,7 @@ onMounted(() => {
 }
 
 .home__title {
+  line-height: normal;
   font-size: var(--biggest-font-size);
 }
 
@@ -117,6 +118,7 @@ onMounted(() => {
 }
 
 .home__description {
+  line-height: normal;
   margin-block: 1rem 2rem;
 }
 
