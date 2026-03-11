@@ -32,5 +32,9 @@
     "section_not_found": "Không tìm thấy section",
     "create_successfully": "Thêm mới section thành công",
     "update_successfully": "Cập nhật section thành công"
+  },
+  "contact": {
+    "get_list_successfully": "Lấy danh sách liên hệ thành công",
+    "create_successfully": "Thêm mới liên hệ thành công"
   }
 }

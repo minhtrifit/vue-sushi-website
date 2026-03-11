@@ -3,3 +3,5 @@ export const SECTION_TYPE = {
   ABOUT: "ABOUT",
   SPECIAL: "SPECIAL",
 };
+
+export const TABLE_LIMIT = 5;

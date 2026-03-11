@@ -1,6 +1,12 @@
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
+import { toast } from "vue3-toastify";
 import { sr } from "@/libs/index";
+import { useCreateContactMutation } from "@/composables/useCreateContactMutation";
+
+const { sendContact, loading } = useCreateContactMutation();
+
+const email = ref("");
 
 const handleRevealSection = () => {
   sr.reveal(`.contact__data`, {
@@ -16,6 +22,28 @@ const handleRevealSection = () => {
   sr.reveal(`.contact__text-2`, {
     delay: 1500,
   });
+};
+
+const handleSubmitForm = async () => {
+  sendContact(
+    { email: email.value },
+    {
+      onSuccess: (data) => {
+        console.log("success:", data);
+
+        email.value = "";
+
+        toast.success(data.message || "Send contact successfully", {
+          position: "bottom-left",
+          autoClose: 3000,
+          theme: "colored",
+        });
+      },
+      onError: (data) => {
+        console.log("error:", data);
+      },
+    },
+  );
 };
 
 onMounted(() => {
@@ -102,8 +130,14 @@ onMounted(() => {
       <div class="contact__newsletter grid">
         <p class="contact__description">Subscribe to the newsletter</p>
 
-        <form action="" class="contact__form">
+        <form
+          action=""
+          class="contact__form"
+          @submit.prevent="handleSubmitForm"
+        >
           <input
+            required
+            v-model="email"
             type="email"
             placeholder="Enter your email address"
             class="contact__input"

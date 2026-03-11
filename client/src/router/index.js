@@ -13,6 +13,7 @@ import HomeSectionPage from "../pages/admin/HomeSectionPage.vue";
 import AboutSectionPage from "../pages/admin/AboutSectionPage.vue";
 import CategoryPage from "../pages/admin/CategoryPage.vue";
 import SpecialSectionPage from "../pages/admin/SpecialSectionPage.vue";
+import ContactPage from "../pages/admin/ContactPage.vue";
 
 const routes = [
   {
@@ -92,6 +93,11 @@ const routes = [
         path: "special",
         name: "Special",
         component: SpecialSectionPage,
+      },
+      {
+        path: "contact",
+        name: "Contact",
+        component: ContactPage,
       },
     ],
   },

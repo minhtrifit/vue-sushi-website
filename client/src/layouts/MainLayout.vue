@@ -17,10 +17,19 @@ useTitle(`${APP_NAME} | Authentic Japanese Flavors`);
 </template>
 
 <style>
-.main-layout * {
+.main-layout *,
+.main-layout *::before,
+.main-layout *::after {
+  box-sizing: border-box;
+}
+
+.main-layout h1,
+.main-layout h2,
+.main-layout h3,
+.main-layout p,
+.main-layout ul {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
 body.main-layout {

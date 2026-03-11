@@ -46,3 +46,9 @@ model Section {
   updatedAt DateTime    @updatedAt
 }
 
+model Contact {
+  id        String      @id @default(uuid())
+  email     String
+  createdAt DateTime    @default(now())
+}
+

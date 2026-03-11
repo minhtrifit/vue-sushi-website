@@ -112,4 +112,11 @@ body.admin-layout {
   background-color: #fff;
   color: #000;
 }
+
+.block__container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
 </style>

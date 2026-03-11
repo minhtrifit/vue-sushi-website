@@ -32,5 +32,9 @@
     "section_not_found": "Section not found",
     "create_successfully": "Create successfully",
     "update_successfully": "Update successfully"
+  },
+  "contact": {
+    "get_list_successfully": "Get contacts successfully",
+    "create_successfully": "Create contact successfully"
   }
 }

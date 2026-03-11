@@ -1,4 +1,5 @@
 import Cookies from "js-cookie";
+import dayjs from "dayjs";
 import { toast } from "vue3-toastify";
 
 const APP_KEY = import.meta.env.VITE_APP_KEY;
@@ -49,4 +50,10 @@ export const formatErrorMessage = (message) => {
 export const formatNewLineToBr = (text) => {
   if (!text) return "";
   return text.replace(/\n/g, "<br/>");
+};
+
+// Example: 2026-03-11T03:18:47.762Z
+export const formatDateTime = (date) => {
+  if (!date) return "";
+  return dayjs(date).format("DD/MM/YYYY HH:mm:ss");
 };
