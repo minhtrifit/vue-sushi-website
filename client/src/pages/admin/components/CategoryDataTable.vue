@@ -145,7 +145,7 @@ const handleUpdateStatus = (payload) => {
         <v-pagination
           :model-value="get(props, 'paging.current_page')"
           :length="get(props, 'paging.total_page')"
-          :total-visible="2"
+          :total-visible="5"
           @update:modelValue="handlePageChange"
         />
       </div>

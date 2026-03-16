@@ -151,13 +151,15 @@ const editItem = (item) => {
 };
 
 const handleCloseModal = () => {
-  Object.keys(targetFood).forEach((key) => {
-    delete targetFood[key];
-  });
   openModal.value = false;
+
   setTimeout(() => {
     modalMode.value = FORM_MODE.ADD;
-  }, 100);
+
+    Object.keys(targetFood).forEach((key) => {
+      delete targetFood[key];
+    });
+  }, 500);
 };
 
 const handleSubmit = (payload) => {

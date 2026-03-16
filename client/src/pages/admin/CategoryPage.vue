@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, ref, watch } from "vue";
+import { reactive, ref, watch, computed } from "vue";
 import { toast } from "vue3-toastify";
 import { TABLE_LIMIT } from "@/constants/index";
 import { formatErrorMessage } from "@/helpers";
@@ -19,6 +19,7 @@ const { params, updateParams } = useQueryParams();
 const page = params.value.page ? Number(params.value.page) : 1;
 const q = params.value.q || "";
 const isActive = params.value.isActive || "";
+const openDetail = computed(() => params.value.open_detail || "");
 
 const openModal = ref(false);
 const modalMode = ref(FORM_MODE.ADD);
@@ -58,6 +59,24 @@ watch(error, (err) => {
   console.log("ERROR:", err?.response?.data);
   errorMessage.value = formatErrorMessage(err?.response?.data?.message) || null;
 });
+
+// Trigger auto open detail
+watch(
+  openDetail,
+  async (value) => {
+    if (!value) return;
+
+    const res = await fetchDetail(value);
+    const category = res.data.data;
+
+    if (category) {
+      Object.assign(targetCategory, category);
+      modalMode.value = FORM_MODE.VIEW;
+      openModal.value = true;
+    }
+  },
+  { immediate: true },
+);
 
 const handleSubmitSearch = async (payload) => {
   updateParams({ q: payload.q, isActive: payload.isActive });
@@ -127,13 +146,17 @@ const editItem = (item) => {
 };
 
 const handleCloseModal = () => {
-  Object.keys(targetCategory).forEach((key) => {
-    delete targetCategory[key];
-  });
   openModal.value = false;
+
   setTimeout(() => {
+    Object.keys(targetCategory).forEach((key) => {
+      delete targetCategory[key];
+    });
+
     modalMode.value = FORM_MODE.ADD;
-  }, 100);
+  }, 500);
+
+  if (openDetail.value !== "") updateParams({ open_detail: "" });
 };
 
 const handleSubmit = (payload) => {

@@ -3,6 +3,7 @@ import { ref, nextTick } from "vue";
 import FsLightbox from "fslightbox-vue";
 import { get } from "lodash";
 import { formatDateTime } from "@/helpers/index";
+import { useRouter } from "vue-router";
 
 const props = defineProps({
   items: {
@@ -27,6 +28,8 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["page-change", "update-status"]);
+
+const router = useRouter();
 
 const HEADERS = [
   { title: "ID", key: "id", width: 400, minWidth: 400 },
@@ -65,6 +68,10 @@ const handlePreviewImage = async (url) => {
   toggler.value = !toggler.value;
 };
 
+const handleRedirectCategory = (categoryId) => {
+  router.push(`/admin/management/category?open_detail=${categoryId}`);
+};
+
 const handlePageChange = (p) => {
   emit("page-change", p);
 };
@@ -101,14 +108,11 @@ const handleUpdateStatus = (payload) => {
 
     <!-- Category column -->
     <template #item.category="{ item }">
-      <div class="d-flex align-center ga-3">
-        <v-img
-          class="img-column"
-          :src="get(item, 'category.imageUrl')"
-          width="50"
-          maxWidth="50"
-          @click="handlePreviewImage(get(item, 'category.imageUrl'))"
-        />
+      <div
+        class="category-column-wrapper d-flex align-center ga-3"
+        @click="handleRedirectCategory(get(item, 'category.id'))"
+      >
+        <v-img :src="get(item, 'category.imageUrl')" width="50" maxWidth="50" />
         <span>{{ get(item, "category.name") }}</span>
       </div>
     </template>
@@ -172,7 +176,7 @@ const handleUpdateStatus = (payload) => {
         <v-pagination
           :model-value="get(props, 'paging.current_page')"
           :length="get(props, 'paging.total_page')"
-          :total-visible="2"
+          :total-visible="5"
           @update:modelValue="handlePageChange"
         />
       </div>
@@ -181,7 +185,7 @@ const handleUpdateStatus = (payload) => {
 </template>
 
 <style scoped>
-.img-column:hover {
+.category-column-wrapper:hover {
   cursor: pointer;
 }
 </style>
