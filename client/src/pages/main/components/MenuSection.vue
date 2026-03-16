@@ -1,21 +1,14 @@
 <script setup>
-import { onMounted, computed } from "vue";
+import { onMounted, computed, watch, nextTick } from "vue";
 import Swiper from "swiper";
 import { Thumbs } from "swiper/modules";
 import { sr } from "@/libs/index";
-
-const categories = [
-  { id: "sushi", title: "Sushi", url: "/assets/img/menu-btn-1.png" },
-  { id: "nigiri", title: "Nigiri", url: "/assets/img/menu-btn-2.png" },
-  { id: "ramen", title: "Ramen", url: "/assets/img/menu-btn-3.png" },
-  { id: "udon", title: "Udon", url: "/assets/img/menu-btn-4.png" },
-  { id: "others", title: "Others", url: "/assets/img/menu-btn-5.png" },
-];
+import { useShowcaseCategory } from "@/composables/useShowcaseCategory";
 
 const menus = [
   {
     id: "maki",
-    category: "sushi",
+    category: "d10b49fb-04e3-4253-87af-3828e059efa0",
     name: "Maki",
     url: "/assets/img/menu-shusi-1.png",
     price: 8.99,
@@ -23,7 +16,7 @@ const menus = [
   },
   {
     id: "maki-salmon",
-    category: "sushi",
+    category: "d10b49fb-04e3-4253-87af-3828e059efa0",
     name: "Maki Salmon",
     url: "/assets/img/menu-shusi-2.png",
     price: 8.99,
@@ -31,7 +24,7 @@ const menus = [
   },
   {
     id: "ikura",
-    category: "sushi",
+    category: "d10b49fb-04e3-4253-87af-3828e059efa0",
     name: "Ikura",
     url: "/assets/img/menu-shusi-3.png",
     price: 8.99,
@@ -39,7 +32,7 @@ const menus = [
   },
   {
     id: "tako-nigiri",
-    category: "nigiri",
+    category: "ed3a04ad-6510-481d-a1c9-1dde01ff50ba",
     name: "Tako Nigiri",
     url: "/assets/img/menu-nigiri-1.png",
     price: 8.99,
@@ -47,7 +40,7 @@ const menus = [
   },
   {
     id: "amaebi-nigiri",
-    category: "nigiri",
+    category: "ed3a04ad-6510-481d-a1c9-1dde01ff50ba",
     name: "Amaebi Nigiri",
     url: "/assets/img/menu-nigiri-2.png",
     price: 8.99,
@@ -55,7 +48,7 @@ const menus = [
   },
   {
     id: "sake-nigiri",
-    category: "nigiri",
+    category: "ed3a04ad-6510-481d-a1c9-1dde01ff50ba",
     name: "Sake Nigiri",
     url: "/assets/img/menu-nigiri-3.png",
     price: 8.99,
@@ -63,7 +56,7 @@ const menus = [
   },
   {
     id: "soja-ramen",
-    category: "ramen",
+    category: "e666eea4-b62b-454e-a633-0fb43e44457a",
     name: "Soja Ramen",
     url: "/assets/img/menu-ramen-1.png",
     price: 8.99,
@@ -71,7 +64,7 @@ const menus = [
   },
   {
     id: "tonkotsu-ramen",
-    category: "ramen",
+    category: "e666eea4-b62b-454e-a633-0fb43e44457a",
     name: "Tonkotsu Ramen",
     url: "/assets/img/menu-ramen-2.png",
     price: 8.99,
@@ -79,7 +72,7 @@ const menus = [
   },
   {
     id: "shoyu-ramen",
-    category: "ramen",
+    category: "e666eea4-b62b-454e-a633-0fb43e44457a",
     name: "Shoyu Ramen",
     url: "/assets/img/menu-ramen-3.png",
     price: 8.99,
@@ -87,7 +80,7 @@ const menus = [
   },
   {
     id: "nabemono-udon",
-    category: "udon",
+    category: "a3c06ee1-176c-4731-9391-ca6195c34706",
     name: "Nabemono Udon",
     url: "/assets/img/menu-udon-1.png",
     price: 8.99,
@@ -95,7 +88,7 @@ const menus = [
   },
   {
     id: "yaki-udon",
-    category: "udon",
+    category: "a3c06ee1-176c-4731-9391-ca6195c34706",
     name: "Yaki Udon",
     url: "/assets/img/menu-udon-2.png",
     price: 8.99,
@@ -103,7 +96,7 @@ const menus = [
   },
   {
     id: "kitsune-udon",
-    category: "udon",
+    category: "a3c06ee1-176c-4731-9391-ca6195c34706",
     name: "Kitsune Udon",
     url: "/assets/img/menu-udon-3.png",
     price: 8.99,
@@ -111,7 +104,7 @@ const menus = [
   },
   {
     id: "dumpling",
-    category: "others",
+    category: "d5dc34ad-b5de-48c0-8113-b7f3d76eb7b5",
     name: "Dumpling",
     url: "/assets/img/menu-other-1.png",
     price: 8.99,
@@ -119,7 +112,7 @@ const menus = [
   },
   {
     id: "onigiri",
-    category: "others",
+    category: "d5dc34ad-b5de-48c0-8113-b7f3d76eb7b5",
     name: "Onigiri",
     url: "/assets/img/menu-other-2.png",
     price: 8.99,
@@ -127,7 +120,7 @@ const menus = [
   },
   {
     id: "sukiyaki",
-    category: "others",
+    category: "d5dc34ad-b5de-48c0-8113-b7f3d76eb7b5",
     name: "Sukiyaki",
     url: "/assets/img/menu-other-3.png",
     price: 8.99,
@@ -135,17 +128,25 @@ const menus = [
   },
 ];
 
-const groupedMenus = computed(() => {
-  if (!menus) return {};
+const { data: categoriesData } = useShowcaseCategory();
 
+const categories = computed(() => {
+  const res = categoriesData.value;
+
+  if (!res?.success) return [];
+
+  return res?.data?.data?.map((cate) => ({
+    id: cate.id,
+    title: cate.name,
+    url: cate.imageUrl,
+  }));
+});
+
+const menusByCategory = computed(() => {
   const result = {};
 
-  menus.forEach((item) => {
-    if (!result[item.category]) {
-      result[item.category] = [];
-    }
-
-    result[item.category].push(item);
+  categories.value.forEach((cate) => {
+    result[cate.id] = menus.filter((m) => m.category === cate.id);
   });
 
   return result;
@@ -186,8 +187,18 @@ const handleViewFood = (food) => {
   console.log(food);
 };
 
+watch(
+  categories,
+  async (val) => {
+    if (!val.length) return;
+
+    await nextTick();
+    handleInitSlider();
+  },
+  { immediate: true },
+);
+
 onMounted(() => {
-  handleInitSlider();
   handleRevealSection();
 });
 </script>
@@ -222,13 +233,13 @@ onMounted(() => {
       <div class="menu__content swiper">
         <div class="swiper-wrapper">
           <div
-            :key="menuKey"
+            v-for="category in categories"
+            :key="category.id"
             class="menu__cards swiper-slide"
-            v-for="(menuValue, menuKey) in groupedMenus"
           >
             <!-- v-for="(value, key, index) in object" -->
             <article
-              v-for="food in menuValue"
+              v-for="food in menusByCategory[category.id]"
               :key="food.id"
               class="menu__card"
               @click="handleViewFood(food)"
@@ -255,6 +266,7 @@ onMounted(() => {
 
 <style scoped>
 .menu {
+  min-height: 959px;
   background-color: var(--first-color);
 }
 

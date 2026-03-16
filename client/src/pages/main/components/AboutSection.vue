@@ -105,6 +105,7 @@ onMounted(() => {
 
 <style scoped>
 .about__container {
+  min-height: 672px;
   row-gap: 3rem;
   padding-bottom: 3rem;
 }

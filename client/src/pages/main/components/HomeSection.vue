@@ -120,6 +120,7 @@ onMounted(() => {
 
 <style scoped>
 .home__container {
+  min-height: 644px;
   padding-top: 1.5rem;
   row-gap: 3rem;
 }

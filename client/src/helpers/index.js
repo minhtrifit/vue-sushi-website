@@ -57,3 +57,8 @@ export const formatDateTime = (date) => {
   if (!date) return "";
   return dayjs(date).format("DD/MM/YYYY HH:mm:ss");
 };
+
+export const capitalizeFirstLetter = (str) => {
+  if (!str) return "";
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};

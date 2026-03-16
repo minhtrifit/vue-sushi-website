@@ -151,6 +151,7 @@ onMounted(() => {
 
 <style scoped>
 .contact {
+  min-height: 523px;
   background-color: var(--first-color);
 }
 
