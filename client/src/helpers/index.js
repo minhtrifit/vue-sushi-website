@@ -62,3 +62,7 @@ export const capitalizeFirstLetter = (str) => {
   if (!str) return "";
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
+
+export const generateSku = () => {
+  return `SKU-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
+};

@@ -1,134 +1,16 @@
 <script setup>
-import { onMounted, computed, watch, nextTick } from "vue";
+import { onMounted, computed, watch, nextTick, ref } from "vue";
 import Swiper from "swiper";
 import { Thumbs } from "swiper/modules";
 import { sr } from "@/libs/index";
 import { useShowcaseCategory } from "@/composables/useShowcaseCategory";
-
-const menus = [
-  {
-    id: "maki",
-    category: "d10b49fb-04e3-4253-87af-3828e059efa0",
-    name: "Maki",
-    url: "/assets/img/menu-shusi-1.png",
-    price: 8.99,
-    available: 10,
-  },
-  {
-    id: "maki-salmon",
-    category: "d10b49fb-04e3-4253-87af-3828e059efa0",
-    name: "Maki Salmon",
-    url: "/assets/img/menu-shusi-2.png",
-    price: 8.99,
-    available: 10,
-  },
-  {
-    id: "ikura",
-    category: "d10b49fb-04e3-4253-87af-3828e059efa0",
-    name: "Ikura",
-    url: "/assets/img/menu-shusi-3.png",
-    price: 8.99,
-    available: 10,
-  },
-  {
-    id: "tako-nigiri",
-    category: "ed3a04ad-6510-481d-a1c9-1dde01ff50ba",
-    name: "Tako Nigiri",
-    url: "/assets/img/menu-nigiri-1.png",
-    price: 8.99,
-    available: 10,
-  },
-  {
-    id: "amaebi-nigiri",
-    category: "ed3a04ad-6510-481d-a1c9-1dde01ff50ba",
-    name: "Amaebi Nigiri",
-    url: "/assets/img/menu-nigiri-2.png",
-    price: 8.99,
-    available: 10,
-  },
-  {
-    id: "sake-nigiri",
-    category: "ed3a04ad-6510-481d-a1c9-1dde01ff50ba",
-    name: "Sake Nigiri",
-    url: "/assets/img/menu-nigiri-3.png",
-    price: 8.99,
-    available: 10,
-  },
-  {
-    id: "soja-ramen",
-    category: "e666eea4-b62b-454e-a633-0fb43e44457a",
-    name: "Soja Ramen",
-    url: "/assets/img/menu-ramen-1.png",
-    price: 8.99,
-    available: 10,
-  },
-  {
-    id: "tonkotsu-ramen",
-    category: "e666eea4-b62b-454e-a633-0fb43e44457a",
-    name: "Tonkotsu Ramen",
-    url: "/assets/img/menu-ramen-2.png",
-    price: 8.99,
-    available: 10,
-  },
-  {
-    id: "shoyu-ramen",
-    category: "e666eea4-b62b-454e-a633-0fb43e44457a",
-    name: "Shoyu Ramen",
-    url: "/assets/img/menu-ramen-3.png",
-    price: 8.99,
-    available: 10,
-  },
-  {
-    id: "nabemono-udon",
-    category: "a3c06ee1-176c-4731-9391-ca6195c34706",
-    name: "Nabemono Udon",
-    url: "/assets/img/menu-udon-1.png",
-    price: 8.99,
-    available: 10,
-  },
-  {
-    id: "yaki-udon",
-    category: "a3c06ee1-176c-4731-9391-ca6195c34706",
-    name: "Yaki Udon",
-    url: "/assets/img/menu-udon-2.png",
-    price: 8.99,
-    available: 10,
-  },
-  {
-    id: "kitsune-udon",
-    category: "a3c06ee1-176c-4731-9391-ca6195c34706",
-    name: "Kitsune Udon",
-    url: "/assets/img/menu-udon-3.png",
-    price: 8.99,
-    available: 10,
-  },
-  {
-    id: "dumpling",
-    category: "d5dc34ad-b5de-48c0-8113-b7f3d76eb7b5",
-    name: "Dumpling",
-    url: "/assets/img/menu-other-1.png",
-    price: 8.99,
-    available: 10,
-  },
-  {
-    id: "onigiri",
-    category: "d5dc34ad-b5de-48c0-8113-b7f3d76eb7b5",
-    name: "Onigiri",
-    url: "/assets/img/menu-other-2.png",
-    price: 8.99,
-    available: 10,
-  },
-  {
-    id: "sukiyaki",
-    category: "d5dc34ad-b5de-48c0-8113-b7f3d76eb7b5",
-    name: "Sukiyaki",
-    url: "/assets/img/menu-other-3.png",
-    price: 8.99,
-    available: 10,
-  },
-];
+import { useShowcaseFood } from "@/composables/useShowcaseFood";
 
 const { data: categoriesData } = useShowcaseCategory();
+const { fetch: fetchFood } = useShowcaseFood();
+
+const selectedCategory = ref("");
+const foods = ref([]);
 
 const categories = computed(() => {
   const res = categoriesData.value;
@@ -146,7 +28,7 @@ const menusByCategory = computed(() => {
   const result = {};
 
   categories.value.forEach((cate) => {
-    result[cate.id] = menus.filter((m) => m.category === cate.id);
+    result[cate.id] = foods.value.filter((m) => m.categoryId === cate.id);
   });
 
   return result;
@@ -183,10 +65,15 @@ const handleRevealSection = () => {
   });
 };
 
+const handleFilterFood = (categoryId) => {
+  selectedCategory.value = categoryId;
+};
+
 const handleViewFood = (food) => {
   console.log(food);
 };
 
+// Init category
 watch(
   categories,
   async (val) => {
@@ -194,6 +81,30 @@ watch(
 
     await nextTick();
     handleInitSlider();
+
+    // set init selected category
+    selectedCategory.value = val[0].id;
+  },
+  { immediate: true },
+);
+
+// Init/Update food
+watch(
+  selectedCategory,
+  async (val) => {
+    if (!val) return;
+
+    const res = await fetchFood(val);
+
+    if (!res?.data?.success) return;
+
+    const data = res?.data?.data?.data?.map((food) => {
+      return {
+        ...food,
+      };
+    });
+
+    foods.value = data;
   },
   { immediate: true },
 );
@@ -223,6 +134,7 @@ onMounted(() => {
             :key="category.id"
             class="menu__button swiper-slide"
             v-for="category in categories"
+            @click="handleFilterFood(category.id)"
           >
             <img :src="category.url" alt="image" />
             <span>{{ category.title }}</span>
@@ -245,16 +157,14 @@ onMounted(() => {
               @click="handleViewFood(food)"
             >
               <div class="menu__blob">
-                <img :src="food.url" class="menu__img" />
+                <img :src="food.imageUrl" class="menu__img" />
               </div>
 
               <h2 class="menu__name">{{ food.name }}</h2>
 
               <div class="menu__info">
                 <h3 class="menu__price">${{ food.price }}</h3>
-                <span class="menu__stock">
-                  {{ food.available }} available
-                </span>
+                <span class="menu__stock"> {{ food.stock }} available </span>
               </div>
             </article>
           </div>

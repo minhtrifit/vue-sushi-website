@@ -1,23 +1,25 @@
 <script setup>
-import { reactive, ref, watch } from "vue";
+import { reactive, ref, watch, computed } from "vue";
 import { toast } from "vue3-toastify";
 import { TABLE_LIMIT } from "@/constants/index";
 import { formatErrorMessage } from "@/helpers";
 import { FORM_MODE } from "@/constants";
 import { useQueryParams } from "@/composables/useQueryParams";
-import { useCategoryList } from "./composables/useCategoryList";
-import { useCategory } from "./composables/useCategory";
-import { useCreateCategoryMutation } from "./composables/useCreateCategoryMutation";
-import { useUpdateCategoryMutation } from "./composables/useUpdateCategoryMutation";
+import { useShowcaseCategory } from "@/composables/useShowcaseCategory";
+import { useFoodList } from "./composables/useFoodList";
+import { useFood } from "./composables/useFood";
+import { useCreateFoodMutation } from "./composables/useCreateFoodMutation";
+import { useUpdateFoodMutation } from "./composables/useUpdateFoodMutation";
 import Error from "@/components/Error.vue";
-import CategoryModal from "./components/CategoryModal.vue";
-import CategoryFilterBar from "./components/CategoryFilterBar.vue";
-import CategoryDataTable from "./components/CategoryDataTable.vue";
+import FoodModal from "./components/FoodModal.vue";
+import FoodFilterBar from "./components/FoodFilterBar.vue";
+import FoodDataTable from "./components/FoodDataTable.vue";
 
 const { params, updateParams } = useQueryParams();
 
 const page = params.value.page ? Number(params.value.page) : 1;
 const q = params.value.q || "";
+const categoryId = params.value.categoryId || "";
 const isActive = params.value.isActive || "";
 
 const openModal = ref(false);
@@ -28,6 +30,7 @@ const filter = reactive({
   page: page,
   q: q,
   isActive: isActive,
+  categoryId: categoryId,
   limit: TABLE_LIMIT,
 });
 
@@ -36,12 +39,28 @@ const tableData = reactive({
   paging: null,
 });
 
-const targetCategory = reactive({});
+const targetFood = reactive({});
 
-const { data, loading, error, refetch } = useCategoryList(filter);
-const { loading: categoryLoading, fetch: fetchDetail } = useCategory();
-const { create, loading: createLoading } = useCreateCategoryMutation();
-const { update, loading: updateLoading } = useUpdateCategoryMutation();
+const { data: categoriesData, loading: categoriesLoading } =
+  useShowcaseCategory();
+const { data, loading, error, refetch } = useFoodList(filter);
+const { loading: foodLoading, fetch: fetchDetail } = useFood();
+const { create, loading: createLoading } = useCreateFoodMutation();
+const { update, loading: updateLoading } = useUpdateFoodMutation();
+
+const CATEGORY_OPTIONS = computed(() => {
+  const res = categoriesData.value;
+
+  if (!res?.success) return [];
+
+  const options = res?.data?.data?.map((cate) => ({
+    title: cate.name,
+    value: cate.id,
+    imageUrl: cate.imageUrl,
+  }));
+
+  return [{ title: "All", value: "" }, ...options];
+});
 
 // Update Table data
 watch(
@@ -60,10 +79,15 @@ watch(error, (err) => {
 });
 
 const handleSubmitSearch = async (payload) => {
-  updateParams({ q: payload.q, isActive: payload.isActive });
+  updateParams({
+    q: payload.q,
+    categoryId: payload.categoryId,
+    isActive: payload.isActive,
+  });
 
   filter.page = 1;
   filter.q = payload.q;
+  filter.categoryId = payload.categoryId;
   filter.isActive = payload.isActive;
 
   refetch();
@@ -110,10 +134,10 @@ const viewItem = async (item) => {
   console.log("view", item);
 
   const res = await fetchDetail(item.id);
-  const category = res.data.data;
+  const food = res.data.data;
 
-  if (category) {
-    Object.assign(targetCategory, category);
+  if (food) {
+    Object.assign(targetFood, food);
     modalMode.value = FORM_MODE.VIEW;
     openModal.value = true;
   }
@@ -121,14 +145,14 @@ const viewItem = async (item) => {
 
 const editItem = (item) => {
   console.log("edit", item);
-  Object.assign(targetCategory, item);
+  Object.assign(targetFood, item);
   modalMode.value = FORM_MODE.EDIT;
   openModal.value = true;
 };
 
 const handleCloseModal = () => {
-  Object.keys(targetCategory).forEach((key) => {
-    delete targetCategory[key];
+  Object.keys(targetFood).forEach((key) => {
+    delete targetFood[key];
   });
   openModal.value = false;
   setTimeout(() => {
@@ -173,7 +197,7 @@ const handleSubmit = (payload) => {
   if (mode === FORM_MODE.EDIT) {
     update(
       {
-        id: targetCategory.id,
+        id: targetFood.id,
         payload: value,
       },
       {
@@ -203,24 +227,28 @@ const handleSubmit = (payload) => {
 
 <template>
   <main class="block__container">
-    <CategoryModal
+    <FoodModal
       :mode="modalMode"
       :open="openModal"
-      :category="targetCategory"
-      :loading="createLoading || updateLoading || categoryLoading"
+      :food="targetFood"
+      :loading="createLoading || updateLoading || foodLoading"
+      :CATEGORY_OPTIONS="CATEGORY_OPTIONS"
+      :categoriesLoading="categoriesLoading"
       @submit="handleSubmit"
       @close="handleCloseModal"
     />
 
-    <CategoryFilterBar
+    <FoodFilterBar
       :filter="filter"
+      :CATEGORY_OPTIONS="CATEGORY_OPTIONS"
+      :categoriesLoading="categoriesLoading"
       @search="handleSubmitSearch"
       @create="openModal = true"
     />
 
     <Error v-if="!loading && error" :content="errorMessage" />
 
-    <CategoryDataTable
+    <FoodDataTable
       :loading="loading"
       :items="tableData.data"
       :paging="tableData.paging"

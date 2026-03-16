@@ -33,4 +33,3 @@ server/generated/prisma
 server/generated/prisma
 server/logs/
 server/*.log
-server/uploads

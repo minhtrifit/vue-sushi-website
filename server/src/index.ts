@@ -17,6 +17,7 @@ import uploadRoutes from './routes/upload.router';
 import sectionRoutes from './routes/section.router';
 import contactRoutes from './routes/contact.router';
 import categoryRoutes from './routes/category.router';
+import productRoutes from './routes/product.router';
 
 dotenv.config();
 
@@ -62,6 +63,7 @@ app.use('/api/upload', uploadRoutes);
 app.use('/api/sections', sectionRoutes);
 app.use('/api/contacts', contactRoutes);
 app.use('/api/category', categoryRoutes);
+app.use('/api/products', productRoutes);
 
 // Error handling middleware
 app.use(multerErrorHandler);

@@ -14,6 +14,7 @@ import AboutSectionPage from "../pages/admin/AboutSectionPage.vue";
 import CategoryPage from "../pages/admin/CategoryPage.vue";
 import SpecialSectionPage from "../pages/admin/SpecialSectionPage.vue";
 import ContactPage from "../pages/admin/ContactPage.vue";
+import FoodPage from "../pages/admin/FoodPage.vue";
 
 const routes = [
   {
@@ -84,6 +85,18 @@ const routes = [
                 path: "add",
                 name: "Add Category",
                 component: CategoryPage,
+              },
+            ],
+          },
+          {
+            path: "food",
+            name: "Food",
+            component: FoodPage,
+            children: [
+              {
+                path: "add",
+                name: "Add Food",
+                component: FoodPage,
               },
             ],
           },
