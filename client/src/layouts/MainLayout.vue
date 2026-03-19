@@ -1,11 +1,17 @@
 <script setup>
 import { useTitle } from "../composables/useTitle";
+import { useTrackPageView } from "../composables/useTrackPageView";
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 
 const APP_NAME = import.meta.env.VITE_APP_NAME;
 
+const { track } = useTrackPageView({
+  useLocalStorage: true,
+});
+
 useTitle(`${APP_NAME} | Authentic Japanese Flavors`);
+track("HOME");
 </script>
 
 <template>

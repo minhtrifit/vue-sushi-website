@@ -70,5 +70,13 @@
     "check_is_user_reviewed_successfully": "Kiểm tra người dùng đã đánh giá thành công",
     "review_not_found": "Không tìm thấy đánh giá {{ reviewId }}",
     "delete_review_successfully": "Xóa đánh giá thành công"
+  },
+  "stats": {
+    "get_summary_successully": "Lấy thống kê thành công",
+    "track_page_successfully": "Track thành công",
+    "get_track_stats_successfully": "Lấy thông số track thành công",
+    "month_is_required": "Vui lòng chọn tháng",
+    "quarter_is_required": "Vui lòng chọn quý",
+    "get_track_summary_successfully": "Lấy thống kê track thành công"
   }
 }

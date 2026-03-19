@@ -70,5 +70,13 @@
     "check_is_user_reviewed_successfully": "Check is user reviewd successfully",
     "review_not_found": "Review {{ reviewId }} not found",
     "delete_review_successfully": "Delete review successfully"
+  },
+  "stats": {
+    "get_summary_successully": "Get summary stats successfully",
+    "track_page_successfully": "Track page successfully",
+    "get_track_stats_successfully": "Get track stats successfully",
+    "month_is_required": "Month is required",
+    "quarter_is_required": "Quarter is required",
+    "get_track_summary_successfully": "Get track summary successfully"
   }
 }

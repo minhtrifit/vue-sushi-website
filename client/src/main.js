@@ -5,6 +5,7 @@ import { VueQueryPlugin } from "@tanstack/vue-query";
 import { createPinia } from "pinia";
 import { vuetify } from "./libs/vuetify";
 import "@mdi/font/css/materialdesignicons.css";
+import "./libs/echarts";
 
 const pinia = createPinia();
 

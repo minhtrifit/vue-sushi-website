@@ -82,3 +82,8 @@ model Product {
   @@index([categoryId])
 }
 
+model PageView {
+  id        String   @id @default(uuid())
+  path      String   // "/home", "/products"
+  createdAt DateTime @default(now())
+}

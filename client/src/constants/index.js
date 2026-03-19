@@ -17,3 +17,9 @@ export const FORM_MODE = {
   EDIT: "EDIT",
   VIEW: "VIEW",
 };
+
+export const StatsChartType = {
+  YEAR: "year",
+  MONTH: "month",
+  QUARTER: "quarter",
+};

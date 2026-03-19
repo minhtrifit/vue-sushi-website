@@ -33,6 +33,10 @@ async function main() {
     };
   });
 
+  const pages = ['/', '/home', '/products', '/products/1', '/products/2', '/about', '/contact'];
+
+  const random = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
+
   // Seed user
   await prisma.user.createMany({
     data: [...baseUsers, ...generatedUsers],
@@ -77,6 +81,46 @@ async function main() {
         'We serve the best and freshest seafood eaten raw with soy sauce, grated ginger and wasabi, combining the authentic flavor of the Japanese for your palate.'
     }
   });
+
+  // Track stats
+  const startDate = new Date(2025, 0, 1);
+  const endDate = new Date(2026, 11, 31);
+
+  // eslint-disable-next-line prefer-const
+  let current = new Date(startDate);
+
+  while (current <= endDate) {
+    // 👉 phân biệt weekday vs weekend
+    const isWeekend = current.getDay() === 0 || current.getDay() === 6;
+
+    const viewsPerDay = isWeekend ? random(10, 80) : random(50, 300);
+
+    const dailyData = [];
+
+    for (let i = 0; i < viewsPerDay; i++) {
+      // 👉 giờ cao điểm (realistic hơn)
+      const hour = random(8, 22);
+
+      dailyData.push({
+        path: pages[random(0, pages.length - 1)],
+        createdAt: new Date(
+          current.getFullYear(),
+          current.getMonth(),
+          current.getDate(),
+          hour,
+          random(0, 59),
+          random(0, 59)
+        )
+      });
+    }
+
+    // 👉 insert theo ngày (tránh RAM lớn)
+    await prisma.pageView.createMany({
+      data: dailyData
+    });
+
+    current.setDate(current.getDate() + 1);
+  }
 
   console.log('✅ Seed successfully');
 }
